@@ -14,14 +14,20 @@
     body {
       font-family: 'Poppins', sans-serif;
       background: #12111a;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden; /* Mengunci scroll utama browser */
     }
 
     .hub {
-      min-height: 100vh;
-      padding: 3rem 2.5rem 2.5rem;
+      height: 100vh;
+      padding: 2.5rem 2.5rem 1.5rem;
       position: relative;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .bg-blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
@@ -56,7 +62,8 @@
 
     .header {
       position: relative; z-index: 5;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
+      flex-shrink: 0;
     }
 
     .eyebrow {
@@ -64,7 +71,7 @@
       color: rgba(255,255,255,0.4);
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       animation: up 0.6s both;
     }
 
@@ -74,14 +81,14 @@
     }
 
     .title-main {
-      font-size: 2.8rem; font-weight: 800;
+      font-size: 2.5rem; font-weight: 800;
       color: #fff;
       line-height: 1.1;
       letter-spacing: -0.03em;
     }
 
     .title-accent {
-      font-size: 2.8rem; font-weight: 800;
+      font-size: 2.5rem; font-weight: 800;
       font-style: italic;
       line-height: 1.1;
       letter-spacing: -0.03em;
@@ -92,8 +99,8 @@
     }
 
     .subtitle {
-      font-size: 14px; color: rgba(255,255,255,0.38); font-weight: 400;
-      margin-top: 0.6rem;
+      font-size: 13.5px; color: rgba(255,255,255,0.38); font-weight: 400;
+      margin-top: 0.4rem;
       animation: up 0.6s 0.13s both;
     }
 
@@ -102,22 +109,20 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Row 1: 2 kartu sama tinggi */
-    .row1 {
-      position: relative; z-index: 5;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
+    /* VIEW 1: Area Dashboard Utama */
+    .main-dashboard-content {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 5px;
     }
 
-    /* Row 2: 3 kartu sama tinggi */
-    .row2 {
-      position: relative; z-index: 5;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1rem;
-    }
+    .main-dashboard-content::-webkit-scrollbar { width: 6px; }
+    .main-dashboard-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    .row1 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
 
     .card {
       text-decoration: none;
@@ -126,6 +131,7 @@
       border-radius: 20px;
       border: 1px solid rgba(255,255,255,0.07);
       position: relative; overflow: hidden;
+      cursor: pointer;
       transition: transform 0.35s cubic-bezier(.22,1.8,.36,1), border-color 0.3s;
       animation: cardUp 0.6s both;
     }
@@ -141,10 +147,7 @@
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .card-bg {
-      position: absolute; inset: 0; border-radius: 20px;
-      opacity: 0.55; transition: opacity 0.3s; z-index: 0;
-    }
+    .card-bg { position: absolute; inset: 0; border-radius: 20px; opacity: 0.55; transition: opacity 0.3s; z-index: 0; }
     .c1 .card-bg { background: linear-gradient(135deg, #1e1640 0%, #150f30 100%); }
     .c2 .card-bg { background: linear-gradient(135deg, #1a1030 0%, #200e28 100%); }
     .c3 .card-bg { background: linear-gradient(135deg, #0e1f22 0%, #0a1820 100%); }
@@ -160,9 +163,7 @@
     .card:hover .card-bg { opacity: 0.85; }
 
     .card-deco { position: absolute; z-index: 1; pointer-events: none; }
-
     .card-content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; }
-
     .card-top { display: flex; align-items: flex-start; justify-content: space-between; }
 
     .icon-wrap {
@@ -176,27 +177,12 @@
     .c4 .icon-wrap { background: rgba(255,160,60,0.16); color: #ffcb80; }
     .c5 .icon-wrap { background: rgba(80,160,255,0.15); color: #90c8ff; }
 
-    .card-num {
-      font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.15);
-      letter-spacing: 0.05em; margin-top: 2px;
-    }
-
-    .card-title {
-      font-size: 1.1rem; font-weight: 700; color: #fff;
-      line-height: 1.3; margin-bottom: 0.4rem;
-    }
-
-    .card-desc {
-      font-size: 12.5px; color: rgba(255,255,255,0.42);
-      line-height: 1.65; font-weight: 400; margin-bottom: 1.2rem;
-    }
-
+    .card-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.15); letter-spacing: 0.05em; margin-top: 2px; }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 0.4rem; }
+    .card-desc { font-size: 12.5px; color: rgba(255,255,255,0.42); line-height: 1.65; font-weight: 400; margin-bottom: 1.2rem; }
     .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
 
-    .pill {
-      font-size: 11px; font-weight: 600; padding: 4px 12px;
-      border-radius: 100px; letter-spacing: 0.04em;
-    }
+    .pill { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 100px; letter-spacing: 0.04em; }
     .c1 .pill { background: rgba(147,110,255,0.15); color: #c4adff; }
     .c2 .pill { background: rgba(255,100,160,0.12); color: #ffaad0; }
     .c3 .pill { background: rgba(0,210,170,0.12); color: #5fecd8; }
@@ -204,24 +190,68 @@
     .c5 .pill { background: rgba(80,160,255,0.12); color: #90c8ff; }
 
     .go {
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px; color: rgba(255,255,255,0.4);
-      transition: all 0.25s;
+      width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center; font-size: 15px; color: rgba(255,255,255,0.4); transition: all 0.25s;
     }
     .card:hover .go { border-color: rgba(255,255,255,0.55); color: #fff; transform: rotate(-40deg); }
 
-    .footer {
-      position: relative; z-index: 5;
-      margin-top: 1.8rem;
-      font-size: 11px; color: rgba(255,255,255,0.2);
-      letter-spacing: 0.06em;
+    .footer { position: relative; z-index: 5; margin-top: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; flex-shrink: 0; }
+
+    /* VIEW 2: AREA WORKSPACE SPREADSHEET (MAKSIMAL TANPA JUDUL ATAS) */
+    .system-workspace-view {
+      position: relative;
+      z-index: 10;
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      animation: up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 1rem; /* Jarak pendek langsung ke bingkai sheet */
+      align-self: flex-start;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .workspace-frame-container {
+      width: 100%;
+      flex: 1; 
+      background: #15141f;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+
+    .workspace-frame-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      overflow: auto;
     }
 
     @media (max-width: 700px) {
-      .hub { padding: 2rem 1.2rem; }
-      .title-main, .title-accent { font-size: 2rem; }
+      .hub { padding: 1.5rem 1rem; }
+      .title-main, .title-accent { font-size: 1.8rem; }
       .row1, .row2 { grid-template-columns: 1fr; }
     }
   </style>
@@ -236,7 +266,8 @@
   </div>
   <div class="noise"></div>
 
-  <div class="header">
+  <!-- HEADER SISTEM (Bisa Disembunyikan Otomatis) -->
+  <div class="header" id="system-header">
     <p class="eyebrow">workspace · quick access</p>
     <div class="title-wrap">
       <span class="title-main">Dokumen</span>
@@ -245,116 +276,161 @@
     <p class="subtitle">5 link penting yang selalu kamu buka — sekarang dalam satu tempat.</p>
   </div>
 
-  <!-- Row 1: 2 kartu -->
-  <div class="row1">
-
-    <a class="card c1" href="https://docs.google.com/spreadsheets/d/1US1m2XOT5Eu04DWAMhJ-pEfLhNYIIMTJElcGprqn4LY/edit?usp=sharing" target="_blank">
-      <div class="card-bg"></div>
-      <svg class="card-deco" style="right:-20px;top:-20px;width:130px;height:130px" viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(147,110,255,0.08)" stroke-width="1"/>
-        <circle cx="60" cy="60" r="35" fill="none" stroke="rgba(147,110,255,0.06)" stroke-width="1"/>
-      </svg>
-      <div class="card-content">
-        <div class="card-top">
-          <div class="icon-wrap"><i class="ti ti-trophy"></i></div>
-          <span class="card-num">01</span>
-        </div>
-        <p class="card-title">Progress Promosi</p>
-        <p class="card-desc">Pantau progress harian pekerjaan tim promosi.</p>
-        <div class="card-foot">
-          <span class="pill">Google Sheets</span>
-          <div class="go"><i class="ti ti-arrow-up-right"></i></div>
-        </div>
-      </div>
-    </a>
-
-    <a class="card c2" href="https://docs.google.com/spreadsheets/d/10ji5ES8T7Zracz4RRPSn5Nfs7YDl1rOa0fYpeu4u-eQ/edit?usp=sharing" target="_blank">
-      <div class="card-bg"></div>
-      <svg class="card-deco" style="right:-10px;bottom:-10px;width:90px;height:90px;opacity:0.5" viewBox="0 0 90 90">
-        <rect x="15" y="15" width="60" height="60" rx="8" fill="none" stroke="rgba(255,100,160,0.15)" stroke-width="1" transform="rotate(20 45 45)"/>
-        <rect x="25" y="25" width="40" height="40" rx="5" fill="none" stroke="rgba(255,100,160,0.1)" stroke-width="1" transform="rotate(20 45 45)"/>
-      </svg>
-      <div class="card-content">
-        <div class="card-top">
-          <div class="icon-wrap"><i class="ti ti-shopping-cart"></i></div>
-          <span class="card-num">02</span>
-        </div>
-        <p class="card-title">Progress Order</p>
-        <p class="card-desc">Status pesanan real-time, dari masuk sampai selesai.</p>
-        <div class="card-foot">
-          <span class="pill">Google Sheets</span>
-          <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+  <!-- VIEW 1: DASHBOARD UTAMA -->
+  <div class="main-dashboard-content" id="dashboard-view">
+    <div class="row1">
+      <div class="card c1" data-sheet-url="https://docs.google.com/spreadsheets/d/1US1m2XOT5Eu04DWAMhJ-pEfLhNYIIMTJElcGprqn4LY/edit?rm=minimal">
+        <div class="card-bg"></div>
+        <svg class="card-deco" style="right:-20px;top:-20px;width:130px;height:130px" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(147,110,255,0.08)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="35" fill="none" stroke="rgba(147,110,255,0.06)" stroke-width="1"/>
+        </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <div class="icon-wrap"><i class="ti ti-trophy"></i></div>
+            <span class="card-num">01</span>
+          </div>
+          <p class="card-title">Progress Promosi</p>
+          <p class="card-desc">Pantau progress harian pekerjaan tim promosi.</p>
+          <div class="card-foot">
+            <span class="pill">Google Sheets</span>
+            <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+          </div>
         </div>
       </div>
-    </a>
 
+      <div class="card c2" data-sheet-url="https://docs.google.com/spreadsheets/d/10ji5ES8T7Zracz4RRPSn5Nfs7YDl1rOa0fYpeu4u-eQ/edit?rm=minimal">
+        <div class="card-bg"></div>
+        <svg class="card-deco" style="right:-10px;bottom:-10px;width:90px;height:90px;opacity:0.5" viewBox="0 0 90 90">
+          <rect x="15" y="15" width="60" height="60" rx="8" fill="none" stroke="rgba(255,100,160,0.15)" stroke-width="1" transform="rotate(20 45 45)"/>
+          <rect x="25" y="25" width="40" height="40" rx="5" fill="none" stroke="rgba(255,100,160,0.1)" stroke-width="1" transform="rotate(20 45 45)"/>
+        </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <div class="icon-wrap"><i class="ti ti-shopping-cart"></i></div>
+            <span class="card-num">02</span>
+          </div>
+          <p class="card-title">Progress Order</p>
+          <p class="card-desc">Status pesanan real-time, dari masuk sampai selesai.</p>
+          <div class="card-foot">
+            <span class="pill">Google Sheets</span>
+            <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="card c3" data-sheet-url="https://docs.google.com/spreadsheets/d/1AJK6-zuCPy-4lRjIx4XboaR6tjlz34VMtLqOkuyfSZM/edit?rm=minimal">
+        <div class="card-bg"></div>
+        <svg class="card-deco" style="right:-15px;top:10px;width:80px;height:80px" viewBox="0 0 80 80">
+          <polygon points="40,5 75,62 5,62" fill="none" stroke="rgba(0,210,170,0.12)" stroke-width="1"/>
+        </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <div class="icon-wrap"><i class="ti ti-video"></i></div>
+            <span class="card-num">03</span>
+          </div>
+          <p class="card-title">Planning Video</p>
+          <p class="card-desc">Jadwal & rencana produksi konten video tim promosi.</p>
+          <div class="card-foot">
+            <span class="pill">Google Sheets</span>
+            <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card c4" data-sheet-url="https://docs.google.com/spreadsheets/d/1l-blZR15lBTxclNxLFq5xOVzmZ3HoIWSE_PPHrM1GGU/edit?rm=minimal">
+        <div class="card-bg"></div>
+        <svg class="card-deco" style="left:-10px;bottom:-10px;width:80px;height:80px;opacity:0.6" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,160,60,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+        </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <div class="icon-wrap"><i class="ti ti-player-play"></i></div>
+            <span class="card-num">04</span>
+          </div>
+          <p class="card-title">Progress Video</p>
+          <p class="card-desc">Cek progress video dealer gathering disini!</p>
+          <div class="card-foot">
+            <span class="pill">Google Sheets</span>
+            <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card c5" data-sheet-url="https://docs.google.com/spreadsheets/d/11csmLzYne7f2BcsP0c9dpGWUGzrpBQRKn8B4eyGfn5E/edit?rm=minimal">
+        <div class="card-bg"></div>
+        <svg class="card-deco" style="right:-5px;top:-5px;width:70px;height:70px" viewBox="0 0 70 70">
+          <line x1="35" y1="5" x2="35" y2="65" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
+          <line x1="5" y1="35" x2="65" y2="35" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
+          <circle cx="35" cy="35" r="25" fill="none" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
+        </svg>
+        <div class="card-content">
+          <div class="card-top">
+            <div class="icon-wrap"><i class="ti ti-calendar-check"></i></div>
+            <span class="card-num">05</span>
+          </div>
+          <p class="card-title">Jadwal 5S</p>
+          <p class="card-desc">Lihat giliran & jadwal kegiatan 5S seluruh tim.</p>
+          <div class="card-foot">
+            <span class="pill">Google Sheets</span>
+            <div class="go"><i class="ti ti-arrow-up-right"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="footer">klik kartu untuk buka dokumen di dalam sistem · dibuat dengan ♥</p>
   </div>
 
-  <!-- Row 2: 3 kartu -->
-  <div class="row2">
-
-    <a class="card c3" href="https://docs.google.com/spreadsheets/d/1AJK6-zuCPy-4lRjIx4XboaR6tjlz34VMtLqOkuyfSZM/edit?usp=sharing" target="_blank">
-      <div class="card-bg"></div>
-      <svg class="card-deco" style="right:-15px;top:10px;width:80px;height:80px" viewBox="0 0 80 80">
-        <polygon points="40,5 75,62 5,62" fill="none" stroke="rgba(0,210,170,0.12)" stroke-width="1"/>
-      </svg>
-      <div class="card-content">
-        <div class="card-top">
-          <div class="icon-wrap"><i class="ti ti-video"></i></div>
-          <span class="card-num">03</span>
-        </div>
-        <p class="card-title">Planning Video</p>
-        <p class="card-desc">Jadwal & rencana produksi konten video tim promosi.</p>
-        <div class="card-foot">
-          <span class="pill">Google Sheets</span>
-          <div class="go"><i class="ti ti-arrow-up-right"></i></div>
-        </div>
-      </div>
-    </a>
-
-    <a class="card c4" href="https://docs.google.com/spreadsheets/d/1l-blZR15lBTxclNxLFq5xOVzmZ3HoIWSE_PPHrM1GGU/edit?usp=sharing" target="_blank">
-      <div class="card-bg"></div>
-      <svg class="card-deco" style="left:-10px;bottom:-10px;width:80px;height:80px;opacity:0.6" viewBox="0 0 80 80">
-        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,160,60,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
-      </svg>
-      <div class="card-content">
-        <div class="card-top">
-          <div class="icon-wrap"><i class="ti ti-player-play"></i></div>
-          <span class="card-num">04</span>
-        </div>
-        <p class="card-title">Progress Video</p>
-        <p class="card-desc">Cek progress video dealer gathering disini!</p>
-        <div class="card-foot">
-          <span class="pill">Google Sheets</span>
-          <div class="go"><i class="ti ti-arrow-up-right"></i></div>
-        </div>
-      </div>
-    </a>
-
-    <a class="card c5" href="https://docs.google.com/spreadsheets/d/11csmLzYne7f2BcsP0c9dpGWUGzrpBQRKn8B4eyGfn5E/edit?usp=sharing" target="_blank">
-      <div class="card-bg"></div>
-      <svg class="card-deco" style="right:-5px;top:-5px;width:70px;height:70px" viewBox="0 0 70 70">
-        <line x1="35" y1="5" x2="35" y2="65" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
-        <line x1="5" y1="35" x2="65" y2="35" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
-        <circle cx="35" cy="35" r="25" fill="none" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
-      </svg>
-      <div class="card-content">
-        <div class="card-top">
-          <div class="icon-wrap"><i class="ti ti-calendar-check"></i></div>
-          <span class="card-num">05</span>
-        </div>
-        <p class="card-title">Jadwal 5S</p>
-        <p class="card-desc">Lihat giliran & jadwal kegiatan 5S seluruh tim.</p>
-        <div class="card-foot">
-          <span class="pill">Google Sheets</span>
-          <div class="go"><i class="ti ti-arrow-up-right"></i></div>
-        </div>
-      </div>
-    </a>
-
+  <!-- VIEW 2: AREA WORKSPACE SPREADSHEET -->
+  <div class="system-workspace-view hidden" id="workspace-view">
+    <button class="btn-back" onclick="closeWorkspace()">
+      <i class="ti ti-arrow-left"></i> Kembali ke Dashboard
+    </button>
+    <div class="workspace-frame-container">
+      <iframe src="" id="workspace-iframe" frameborder="0" allowfullscreen></iframe>
+    </div>
   </div>
 
-  <p class="footer">klik kartu untuk buka dokumen · dibuat dengan ♥</p>
 </div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+  const systemHeader = document.getElementById('system-header');
+  const dashboardView = document.getElementById('dashboard-view');
+  const workspaceView = document.getElementById('workspace-view');
+  const workspaceIframe = document.getElementById('workspace-iframe');
+
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    card.addEventListener('click', function() {
+      const targetUrl = this.getAttribute('data-sheet-url');
+
+      // Isi URL target ke iframe
+      workspaceIframe.src = targetUrl;
+
+      // SEMBUNYIKAN HEADER UTAMA & DASHBOARD KARTU
+      systemHeader.classList.add('hidden');
+      dashboardView.classList.add('hidden');
+      
+      // MUNCULKAN AREA IFRAME
+      workspaceView.classList.remove('hidden');
+    });
+  });
+
+  function closeWorkspace() {
+    // Kosongkan src iframe kembali
+    workspaceIframe.src = "";
+
+    // SEMBUNYIKAN AREA IFRAME
+    workspaceView.classList.add('hidden');
+
+    // MUNCULKAN KEMBALI HEADER UTAMA & DASHBOARD KARTU
+    systemHeader.classList.remove('hidden');
+    dashboardView.classList.remove('hidden');
+  }
+</script>
 </body>
 </html>
