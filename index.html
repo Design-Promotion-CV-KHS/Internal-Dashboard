@@ -20,7 +20,7 @@
 
     .hub {
       height: 100vh;
-      padding: 2.5rem 2.5rem 1.5rem;
+      padding: 2rem;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -60,62 +60,22 @@
       background-size: 180px;
     }
 
-    .header {
+    /* NAV BAR ATAS HANYA UNTUK TOMBOL BACK */
+    .header-nav {
       position: relative; z-index: 5;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       flex-shrink: 0;
+      display: flex;
+      justify-content: flex-start;
     }
 
-    .eyebrow {
-      font-size: 12px; font-weight: 600;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-      animation: up 0.6s both;
-    }
-
-    .title-wrap {
-      display: flex; align-items: flex-end; flex-wrap: wrap;
-      animation: up 0.6s 0.07s both;
-    }
-
-    .title-main {
-      font-size: 2.5rem; font-weight: 800;
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-    }
-
-    .title-accent {
-      font-size: 2.5rem; font-weight: 800;
-      font-style: italic;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-left: 12px;
-      background: linear-gradient(120deg, #a78bff, #ff6bae);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .subtitle {
-      font-size: 13.5px; color: rgba(255,255,255,0.38); font-weight: 400;
-      margin-top: 0.4rem;
-      animation: up 0.6s 0.13s both;
-    }
-
-    @keyframes up {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* VIEW 1: Area Dashboard Utama */
+    /* AREA DASHBOARD UTAMA */
     .main-dashboard-content {
       position: relative;
       z-index: 5;
       flex: 1;
       overflow-y: auto;
-      padding-right: 5px;
+      padding-top: 1rem;
     }
 
     .main-dashboard-content::-webkit-scrollbar { width: 6px; }
@@ -195,9 +155,9 @@
     }
     .card:hover .go { border-color: rgba(255,255,255,0.55); color: #fff; transform: rotate(-40deg); }
 
-    .footer { position: relative; z-index: 5; margin-top: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; flex-shrink: 0; }
+    .footer { position: relative; z-index: 5; margin-top: 1.5rem; font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; flex-shrink: 0; text-align: center; }
 
-    /* VIEW 2: AREA WORKSPACE SPREADSHEET (MAKSIMAL TANPA JUDUL ATAS) */
+    /* AREA WORKSPACE IFRAME SPREADSHEET */
     .system-workspace-view {
       position: relative;
       z-index: 10;
@@ -212,24 +172,23 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       color: #fff;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 12px;
       font-family: 'Poppins', sans-serif;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
-      margin-bottom: 1rem; /* Jarak pendek langsung ke bingkai sheet */
-      align-self: flex-start;
       transition: all 0.2s;
       flex-shrink: 0;
     }
 
     .btn-back:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
     }
 
     .workspace-frame-container {
@@ -239,7 +198,7 @@
       border-radius: 18px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
     }
 
     .workspace-frame-container iframe {
@@ -250,9 +209,9 @@
     }
 
     @media (max-width: 700px) {
-      .hub { padding: 1.5rem 1rem; }
-      .title-main, .title-accent { font-size: 1.8rem; }
+      .hub { padding: 1rem; }
       .row1, .row2 { grid-template-columns: 1fr; }
+      .btn-back { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -266,20 +225,15 @@
   </div>
   <div class="noise"></div>
 
-  <!-- HEADER SISTEM (Bisa Disembunyikan Otomatis) -->
-  <div class="header" id="system-header">
-    <p class="eyebrow">workspace · quick access</p>
-    <div class="title-wrap">
-      <span class="title-main">Dokumen</span>
-      <span class="title-accent">Kerja.</span>
-    </div>
-    <p class="subtitle">5 link penting yang selalu kamu buka — sekarang dalam satu tempat.</p>
+  <div class="header-nav">
+    <button class="btn-back hidden" id="main-btn-back" onclick="closeWorkspace()">
+      <i class="ti ti-arrow-left"></i> Kembali ke Dashboard Utama
+    </button>
   </div>
 
-  <!-- VIEW 1: DASHBOARD UTAMA -->
   <div class="main-dashboard-content" id="dashboard-view">
     <div class="row1">
-      <div class="card c1" data-sheet-url="https://docs.google.com/spreadsheets/d/1US1m2XOT5Eu04DWAMhJ-pEfLhNYIIMTJElcGprqn4LY/edit?rm=minimal">
+      <div class="card c1" data-sheet-url="https://docs.google.com/spreadsheets/d/1US1m2XOT5Eu04DWAMhJ-pEfLhNYIIMTJElcGprqn4LY/edit">
         <div class="card-bg"></div>
         <svg class="card-deco" style="right:-20px;top:-20px;width:130px;height:130px" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(147,110,255,0.08)" stroke-width="1"/>
@@ -299,7 +253,7 @@
         </div>
       </div>
 
-      <div class="card c2" data-sheet-url="https://docs.google.com/spreadsheets/d/10ji5ES8T7Zracz4RRPSn5Nfs7YDl1rOa0fYpeu4u-eQ/edit?rm=minimal">
+      <div class="card c2" data-sheet-url="https://docs.google.com/spreadsheets/d/10ji5ES8T7Zracz4RRPSn5Nfs7YDl1rOa0fYpeu4u-eQ/edit">
         <div class="card-bg"></div>
         <svg class="card-deco" style="right:-10px;bottom:-10px;width:90px;height:90px;opacity:0.5" viewBox="0 0 90 90">
           <rect x="15" y="15" width="60" height="60" rx="8" fill="none" stroke="rgba(255,100,160,0.15)" stroke-width="1" transform="rotate(20 45 45)"/>
@@ -321,7 +275,7 @@
     </div>
 
     <div class="row2">
-      <div class="card c3" data-sheet-url="https://docs.google.com/spreadsheets/d/1AJK6-zuCPy-4lRjIx4XboaR6tjlz34VMtLqOkuyfSZM/edit?rm=minimal">
+      <div class="card c3" data-sheet-url="https://docs.google.com/spreadsheets/d/1AJK6-zuCPy-4lRjIx4XboaR6tjlz34VMtLqOkuyfSZM/edit">
         <div class="card-bg"></div>
         <svg class="card-deco" style="right:-15px;top:10px;width:80px;height:80px" viewBox="0 0 80 80">
           <polygon points="40,5 75,62 5,62" fill="none" stroke="rgba(0,210,170,0.12)" stroke-width="1"/>
@@ -340,7 +294,7 @@
         </div>
       </div>
 
-      <div class="card c4" data-sheet-url="https://docs.google.com/spreadsheets/d/1l-blZR15lBTxclNxLFq5xOVzmZ3HoIWSE_PPHrM1GGU/edit?rm=minimal">
+      <div class="card c4" data-sheet-url="https://docs.google.com/spreadsheets/d/1l-blZR15lBTxclNxLFq5xOVzmZ3HoIWSE_PPHrM1GGU/edit">
         <div class="card-bg"></div>
         <svg class="card-deco" style="left:-10px;bottom:-10px;width:80px;height:80px;opacity:0.6" viewBox="0 0 80 80">
           <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,160,60,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
@@ -359,7 +313,7 @@
         </div>
       </div>
 
-      <div class="card c5" data-sheet-url="https://docs.google.com/spreadsheets/d/11csmLzYne7f2BcsP0c9dpGWUGzrpBQRKn8B4eyGfn5E/edit?rm=minimal">
+      <div class="card c5" data-sheet-url="https://docs.google.com/spreadsheets/d/11csmLzYne7f2BcsP0c9dpGWUGzrpBQRKn8B4eyGfn5E/edit">
         <div class="card-bg"></div>
         <svg class="card-deco" style="right:-5px;top:-5px;width:70px;height:70px" viewBox="0 0 70 70">
           <line x1="35" y1="5" x2="35" y2="65" stroke="rgba(80,160,255,0.1)" stroke-width="1"/>
@@ -383,11 +337,7 @@
     <p class="footer">klik kartu untuk buka dokumen di dalam sistem · dibuat dengan ♥</p>
   </div>
 
-  <!-- VIEW 2: AREA WORKSPACE SPREADSHEET -->
   <div class="system-workspace-view hidden" id="workspace-view">
-    <button class="btn-back" onclick="closeWorkspace()">
-      <i class="ti ti-arrow-left"></i> Kembali ke Dashboard
-    </button>
     <div class="workspace-frame-container">
       <iframe src="" id="workspace-iframe" frameborder="0" allowfullscreen></iframe>
     </div>
@@ -395,12 +345,11 @@
 
 </div>
 
-<!-- JAVASCRIPT LOGIC -->
 <script>
-  const systemHeader = document.getElementById('system-header');
   const dashboardView = document.getElementById('dashboard-view');
   const workspaceView = document.getElementById('workspace-view');
   const workspaceIframe = document.getElementById('workspace-iframe');
+  const mainBtnBack = document.getElementById('main-btn-back');
 
   const cards = document.querySelectorAll('.card');
 
@@ -408,27 +357,27 @@
     card.addEventListener('click', function() {
       const targetUrl = this.getAttribute('data-sheet-url');
 
-      // Isi URL target ke iframe
+      // Set URL target ke iframe (Ganti ke mode edit penuh)
       workspaceIframe.src = targetUrl;
 
-      // SEMBUNYIKAN HEADER UTAMA & DASHBOARD KARTU
-      systemHeader.classList.add('hidden');
+      // Sembunyikan grid dashboard utama
       dashboardView.classList.add('hidden');
       
-      // MUNCULKAN AREA IFRAME
+      // Tampilkan kontainer spreadsheet & tombol kembali secara bersamaan
       workspaceView.classList.remove('hidden');
+      mainBtnBack.classList.remove('hidden');
     });
   });
 
   function closeWorkspace() {
-    // Kosongkan src iframe kembali
+    // Kosongkan ulang isi iframe
     workspaceIframe.src = "";
 
-    // SEMBUNYIKAN AREA IFRAME
+    // Sembunyikan workspace dan tombol back
     workspaceView.classList.add('hidden');
+    mainBtnBack.classList.add('hidden');
 
-    // MUNCULKAN KEMBALI HEADER UTAMA & DASHBOARD KARTU
-    systemHeader.classList.remove('hidden');
+    // Kembalikan ke menu utama kartu
     dashboardView.classList.remove('hidden');
   }
 </script>
